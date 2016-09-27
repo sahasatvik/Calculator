@@ -1,8 +1,8 @@
 
 class Expression {
 	
-	public static String number = "((-?)\\d+(\\.\\d+)?([eE]\\d+)?)\\s+"; 
-	public static String negNumber = "(-\\d+(\\.\\d+)?([eE]\\d+)?)\\s+";
+	public static String number = "((-?)\\d+(\\.\\d+)?([eE](-?)\\d+)?)\\s+"; 
+	public static String negNumber = "(-\\d+(\\.\\d+)?([eE](-?)\\d+)?)\\s+";
 
 	public static String[] operators = {"^", "%", "/", "*", "+", "-"};
 	public static String[][] constants = {{"_e_", ("" + Math.E)},
@@ -19,7 +19,7 @@ class Expression {
 	}
 	public static String evaluate (String exp) throws Exception {
 	
-		exp = exp.replaceAll(number + negNumber, "$1 + $4");
+		exp = exp.replaceAll(number + negNumber, " $1 + $6 ");
 		
 		while (exp.indexOf("[") != -1) {
 			exp += " ";

@@ -45,7 +45,7 @@ class Calculator {
 		for (int i = 0; i < numberOfVars; i++) {
 			exp = exp.replaceAll(variables[i][0], variables[i][1]);
 		}
-		exp = exp.replaceAll("(-?)\\d+(\\.\\d+)?([eE]\\d+)?", " $0 ");
+		exp = exp.replaceAll("(-?)\\d+(\\.\\d+)?([eE](-?)\\d+)?", " $0 ");
 		try {
 			return Expression.evaluate(exp);
 		} catch (NumberFormatException e) {
