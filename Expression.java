@@ -21,6 +21,12 @@ class Expression {
 	
 		exp = exp.replaceAll(number + negNumber, " $1 + $6 ");
 		
+		while (exp.indexOf("(") != -1) {
+			int start = exp.indexOf("(");
+			int end = indexOfMatchingBracket(exp, start, '(', ')');
+			exp = exp.substring(0, start) + " " + evaluate(exp.substring(start + 1, end)) + " " + exp.substring(end + 1);
+		}
+		
 		while (exp.indexOf("[") != -1) {
 			exp += " ";
 			int start = exp.indexOf("[");
@@ -31,12 +37,6 @@ class Expression {
 			exp = exp.substring(0, start) +" "+ funcVal(exp.substring(start, end)) +" "+ exp.substring(end);
 		}
 
-		if (exp.indexOf("(") != -1) {
-			int start = exp.indexOf("(");
-			int end = indexOfMatchingBracket(exp, start, '(', ')');
-			exp = exp.substring(0, start) + " " + evaluate(exp.substring(start + 1, end)) + " " + exp.substring(end + 1);
-		}
-		
 		String[] stack = exp.split(" ");
 		
 		for (String op : operators) {
@@ -98,7 +98,9 @@ class Expression {
 			result = 1.0/Math.cos(Math.toRadians(x));
 		} else if (func.equals("ctn")) {
 			result = 1.0/Math.tan(Math.toRadians(x));
-		}
+		} else if (func.equals("fct")) {
+			result = factorial(x);
+		} 
 		return "" + result;
 	}
 	public static int indexOfMatchingBracket (String str, int pos, char open, char close) {
@@ -110,5 +112,13 @@ class Expression {
 				pos = indexOfMatchingBracket(str, pos, open, close);
 		}
 		return pos;
+	}
+	public static double factorial (double x) {
+		if (x == 0)
+			return 1;
+		double n = 1;
+		while (x > 0)
+			n *= x--;
+		return n;
 	}
 }
