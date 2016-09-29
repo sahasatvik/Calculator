@@ -1,14 +1,33 @@
 
 class Expression {
 	
-	public static String number = "((-?)\\d+(\\.\\d+)?([eE](-?)\\d+)?)\\s+"; 
-	public static String negNumber = "(-\\d+(\\.\\d+)?([eE](-?)\\d+)?)\\s+";
+	public static String numberRegex = "((-?)\\d+(\\.\\d+)?([eE](-?)\\d+)?)"; 
+	public static String negNumberRegex = "(-\\d+(\\.\\d+)?([eE](-?)\\d+)?)";
 
 	public static String[] operators = {"^", "%", "/", "*", "+", "-"};
-	public static String[][] constants = {{"_e_", ("" + Math.E)},
-					       {"_pi_", ("" + Math.PI)},
-					       {"_phi_", ("" + (Math.sqrt(5.0) + 1.0) / 2.0)}};
+	
+	public static String[][] variables;
+	public static int numberOfVars;
+	
+	static {
+		variables = new String[128][2];
+		numberOfVars = 0;
+		addVariable("_e_", ("" + Math.E));
+		addVariable("_pi_", ("" + Math.PI));
+		addVariable("_phi_", ("" + (Math.sqrt(5.0) + 1.0) / 2.0));
+	}
 
+	public static void addVariable (String name, String value) {
+		for (int i = 0; i < numberOfVars; i++) {
+			if (variables[i][0].equals(name)) {
+				variables[i][1] = value;
+				return;
+			}
+		}
+		variables[numberOfVars][0] = name;
+		variables[numberOfVars][1] = value;
+		numberOfVars++;
+	}
 	public static boolean isNumber (String str) {
 		try {
 			Double.parseDouble(str);
@@ -18,25 +37,38 @@ class Expression {
 		}
 	}
 	public static String evaluate (String exp) throws Exception {
-	
-		exp = exp.replaceAll(number + negNumber, " $1 + $6 ");
-		
+		for (int i = 0; i < numberOfVars; i++) {
+			exp = exp.replaceAll(variables[i][0], variables[i][1]);
+		}
+		exp = exp.replaceAll(numberRegex, " $0 ");
+		exp = exp.replaceAll(numberRegex + "\\s+" + negNumberRegex, " $1 + $6 ");
+		exp = parseParenthesis(exp);
+		exp = parseFunctions(exp);
+		exp = parseOperators(exp);
+		return "" + Double.parseDouble(exp);
+	}
+	public static String parseParenthesis (String exp) throws Exception {
 		while (exp.indexOf("(") != -1) {
 			int start = exp.indexOf("(");
 			int end = indexOfMatchingBracket(exp, start, '(', ')');
 			exp = exp.substring(0, start) + " " + evaluate(exp.substring(start + 1, end)) + " " + exp.substring(end + 1);
 		}
-		
+		return exp.trim();
+	}
+	public static String parseFunctions (String exp) throws Exception {
+		exp = exp.replaceAll(numberRegex + "\\s+!", " fct[$1] ");
 		while (exp.indexOf("[") != -1) {
-			exp += " ";
 			int start = exp.indexOf("[");
 			int end = indexOfMatchingBracket(exp, start, '[', ']') + 1;
 			//while (exp.substring(start, exp.indexOf("[")).matches("[a-z]+"))
 			//	start--;
 			start -= 3;
-			exp = exp.substring(0, start) +" "+ funcVal(exp.substring(start, end)) +" "+ exp.substring(end);
+			exp = exp.substring(0, start) +" "+ parseUnaryFunction(exp.substring(start, end)) +" "+ exp.substring(end);
 		}
-
+		return exp.trim();
+	}
+	public static String parseOperators (String exp) throws Exception {
+		
 		String[] stack = exp.split(" ");
 		
 		for (String op : operators) {
@@ -48,18 +80,18 @@ class Expression {
 						x--;
 					while (y < stack.length && !isNumber(stack[y]))
 						y++;
-					stack[i] = binaryExp(stack[x], op, stack[y]);
+					stack[i] = parseBinaryExpression(stack[x], op, stack[y]);
 					stack[x] = "";
 					stack[y] = "";
 				}
 			}
 		}
-		String result = "";
+		exp = "";
 		for (String s : stack)
-			result += s;
-		return "" + Double.parseDouble(result.trim());
+			exp += s;
+		return exp.trim();
 	}
-	public static String binaryExp (String x, String op, String y) throws Exception {
+	public static String parseBinaryExpression (String x, String op, String y) throws Exception {
 		double a = Double.parseDouble(x);
 		double b = Double.parseDouble(y);
 		double result = 0.0;
@@ -78,7 +110,7 @@ class Expression {
 		}
 		return "" + result;
 	}
-	public static String funcVal (String exp) throws Exception {
+	public static String parseUnaryFunction (String exp) throws Exception {
 		int start = exp.indexOf("[");
 		int end = exp.length() - 1;
 		double x = Double.parseDouble(evaluate(exp.substring(start + 1, end)));
