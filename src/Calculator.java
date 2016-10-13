@@ -40,7 +40,7 @@ class Calculator {
 		}
 	}
 	public static String evaluate (String exp) throws Exception {
-		exp = exp.replaceAll("ans", previousAns);
+		exp = exp.replaceAll("<(\\s+)?ans(\\s+)?>", previousAns);
 		return expParser.evaluate(exp);
 	}
 	public static void parseCommand (String command) {

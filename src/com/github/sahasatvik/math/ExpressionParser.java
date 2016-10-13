@@ -45,7 +45,7 @@ public class ExpressionParser extends MathParser {
 	}
 	public String parseVariables (String exp) throws Exception {
 		for (int i = 0; i < numberOfVars; i++) {
-			exp = exp.replaceAll("<" + variables[i][0] + ">", variables[i][1]);
+			exp = exp.replaceAll("<(\\s+)?" + variables[i][0] + "(\\s+)?>", variables[i][1]);
 		}
 		return exp.trim();	
 	}
