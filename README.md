@@ -12,12 +12,12 @@ some functions (sin[], cos[], tan[], fct[]), setting variables, and much more!
 	?> 2e3
 	=> 2000.0
 	?> x = 3!
-	=> x = 6.0
-	?> x^2 - x - 1
+	=> 6.0
+	?> <x>^2 - <x> - 1
 	=> 29.0
 	?> y = 30
-	=> y = 30.0
-	?> sin[y]^2 + cos[y]^2
+	=> 30.0
+	?> sin[<y>]^2 + cos[<y>]^2
 	=> 1.0
 	?> exit
 ```
