@@ -1,0 +1,3 @@
+#!/bin/bash
+rm docs -R
+javadoc -verbose -d docs/ $(find ./src/* | grep .java) -author -version
