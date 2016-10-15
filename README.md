@@ -31,25 +31,25 @@ Nesting of assignments is also supported, as follows :
 ```
 	x = 1 + (y = 1)		
 					=>		 2.0
-	<x>			=>		 2.0
-	<y>			=>		 1.0
+	<x>				=>		 2.0
+	<y>				=>		 1.0
 ```
 A special variable `<ans>` stores the previous expression. Thus, the following is valid : 
 ```
-	1 * 2 * 3 * 4		=>		24.0
+	1 * 2 * 3 * 4	=>		24.0
 	<ans> * 5		=>	       120.0
 ```			
 ##Functions
 *Calculator* supports the use of some basic *functions*. They can be used with the following syntax : 
 ```
-	fnc[ value ]		>	evaluate 'fnc' of 'value'
+	fnc[ value ]	>	evaluate 'fnc' of 'value'
 ```
 
 Following are some valid uses of functions : 
 ```
-	sin[<pi> / 2]		=>		 1.0
-	1 + abs[2 - 3]		=>		 2.0
-	log[<e> ^ 3]		=>		 3.0
+	sin[<pi> / 2]	=>		 1.0
+	1 + abs[2 - 3]	=>		 2.0
+	log[<e> ^ 3]	=>		 3.0
 ```
 
 A complete list of functions :
