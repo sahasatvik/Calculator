@@ -67,6 +67,7 @@ public class ExpressionParser extends MathParser {
 	}
 	public String parseParenthesis (String exp) throws ExpressionParserException {
 		String result = "";
+		exp = " " + exp;
 		while (exp.indexOf("(") != -1) {
 			int start = exp.indexOf("(");
 			int end = indexOfMatchingBracket(exp, start, '(', ')');
