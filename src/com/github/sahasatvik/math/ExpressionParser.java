@@ -3,8 +3,8 @@ package com.github.sahasatvik.math;
 
 public class ExpressionParser extends MathParser {
 	
-	public static String numberRegex = "((-?)\\d+(\\.\\d+)?([eE](-?)\\d+)?)"; 
-	public static String negNumberRegex = "(-\\d+(\\.\\d+)?([eE](-?)\\d+)?)";
+	public static String numberRegex = "(([+-]?)\\d+(\\.\\d+)?([eE](-?)\\d+)?)"; 
+	public static String signedNumberRegex = "([+-]\\d+(\\.\\d+)?([eE](-?)\\d+)?)";
 	public static String assignmentRegex = "(\\s+)?(\\w+)(\\s+)(=)(.*)";
 
 	public static String[] operators = {"^", "%", "/", "*", "+", "-"};
@@ -28,8 +28,13 @@ public class ExpressionParser extends MathParser {
 		variables[numberOfVars][1] = value;
 		numberOfVars++;
 	}
-	public String evaluate (String exp) throws Exception {
-		if (exp.matches(assignmentRegex)) {
+	public String evaluate (String exp) throws ExpressionParserException {
+		String result = exp;
+		if (exp.length() == 0) {
+			throw new NullExpressionException();
+		} else if (isNumber(exp)) {
+			return "" + Double.parseDouble(exp);
+		} else if (exp.matches(assignmentRegex)) {
 			String varName = exp.substring(0, exp.indexOf("=")).trim();
 			String varValue = evaluate(exp.substring(exp.indexOf("=") + 1));
 			addVariable(varName, varValue);
@@ -40,39 +45,72 @@ public class ExpressionParser extends MathParser {
 			exp = parseParenthesis(exp);
 			exp = parseFunctions(exp);
 			exp = parseOperators(exp);
+		} 
+		
+		try {
+			result = "" + Double.parseDouble(exp);
+		} catch (Exception e) {
+			throw new ExpressionParserException(exp);
 		}
-		return "" + Double.parseDouble(exp);
+		return result;
 	}
-	public String parseVariables (String exp) throws Exception {
+	public String parseVariables (String exp) throws VariableNotFoundException {
 		for (int i = 0; i < numberOfVars; i++) {
 			exp = exp.replaceAll("<(\\s+)?" + variables[i][0] + "(\\s+)?>", variables[i][1]);
 		}
+		int start = exp.indexOf("<");
+		int end = exp.indexOf(">");
+		if (start != -1 && end != -1 && start < end) {
+			throw new VariableNotFoundException(exp, exp.substring(start, end + 1));
+		}
 		return exp.trim();	
 	}
-	public String parseParenthesis (String exp) throws Exception {
+	public String parseParenthesis (String exp) throws ExpressionParserException {
+		String result = "";
 		while (exp.indexOf("(") != -1) {
 			int start = exp.indexOf("(");
 			int end = indexOfMatchingBracket(exp, start, '(', ')');
-			String result = evaluate(exp.substring(start + 1, end));
-			exp = exp.substring(0, start) + " " + result + " " + exp.substring(end + 1);
+			result = evaluate(exp.substring(start + 1, end));
+			if (exp.charAt(start - 1) == '-') {
+				result = " ( -1 * ( " + result + " ) ) ";
+				start--;
+			}
+			exp = exp.substring(0, start) + " " 
+					    + result + " " 
+					    + exp.substring(end + 1);
+		}
+		exp = adjustNumberSpacing(exp);
+		return exp.trim();
+	}
+	public String parseFunctions (String exp) throws ExpressionParserException {
+		String func = "";
+		double x = 0.0;
+		double result = 0.0;
+		try {
+			exp = exp.replaceAll(numberRegex + "\\s+!", " fct[$1] ");
+			while (exp.indexOf("[") != -1) {
+				int start = exp.indexOf("[");
+				int end = indexOfMatchingBracket(exp, start, '[', ']');
+				func = exp.substring(start - 3, start);
+				x = Double.parseDouble(evaluate(exp.substring(start + 1, end)));
+				result = solveUnaryFunction(func, x); 
+				exp = exp.substring(0, start-3) + " " 
+						    + result + " "
+						    + exp.substring(end+1);
+			}
+		} catch (FunctionNotFoundException e) {
+			throw new FunctionNotFoundException(exp, func);
+		} catch (NullExpressionException e) {
+			throw new MissingOperandException(exp, func + "[]");
+		} catch (Exception e) {
+			throw new ExpressionParserException(exp);
 		}
 		return exp.trim();
 	}
-	public String parseFunctions (String exp) throws Exception {
-		exp = exp.replaceAll(numberRegex + "\\s+!", " fct[$1] ");
-		while (exp.indexOf("[") != -1) {
-			int start = exp.indexOf("[");
-			int end = indexOfMatchingBracket(exp, start, '[', ']');
-			double x = Double.parseDouble(evaluate(exp.substring(start + 1, end)));
-			String func = exp.substring(start - 3, start);
-			exp = exp.substring(0, start-3) + " " + solveUnaryFunction(func, x) + " " + exp.substring(end+1);
-		}
-		return exp.trim();
-	}
-	public String parseOperators (String exp) throws Exception {
-		String[] stack = exp.split(" ");
+	public String parseOperators (String exp) throws MissingOperandException {
+		String[] stack = exp.split("\\s+");
 		for (String op : operators) {
-			for (int i = 1; i < stack.length; i++) {
+			for (int i = 0; i < stack.length; i++) {
 				if (stack[i].equals(op)) {
 					int x, y;
 					x = y = i;
@@ -80,31 +118,40 @@ public class ExpressionParser extends MathParser {
 						x--;
 					while (y < stack.length && !isNumber(stack[y]))
 						y++;
-					double a = Double.parseDouble(stack[x]);
-					double b = Double.parseDouble(stack[y]);
-					stack[i] = solveBinaryOperation(a, op, b);
+					try {
+						double a = Double.parseDouble(stack[x]);
+						double b = Double.parseDouble(stack[y]);
+						stack[i] = "" + solveBinaryOperation(a, op, b);
+					} catch (Exception e) {
+						throw new MissingOperandException(exp, op);
+					}
 					stack[x] = "";
 					stack[y] = "";
 				}
 			}
 		}
 		exp = "";
-		for (String s : stack)
+		for (String s : stack) {
 			exp += s;
+		}
 		return exp.trim();
 	}
 	public static String adjustNumberSpacing (String exp) {
 		exp = exp.replaceAll(numberRegex, " $0 ");
-		exp = exp.replaceAll(numberRegex + "\\s+" + negNumberRegex, " $1 + $6 ");
+		exp = exp.replaceAll(numberRegex + "\\s+" + signedNumberRegex, " $1 + $6 ");
 		return exp;	
 	}
-	public static int indexOfMatchingBracket (String str, int pos, char open, char close) {
-		int end = pos;
-		while (pos++ < str.length()) {
+	public static int indexOfMatchingBracket (String str, int pos, char open, char close) 
+								throws UnmatchedBracketsException {
+		int tmp = pos;
+		while (++pos < str.length()) {
 			if (str.charAt(pos) == close)
 				return pos;
 			if (str.charAt(pos) == open)
 				pos = indexOfMatchingBracket(str, pos, open, close);
+		}
+		if (pos >= str.length()) {
+			throw new UnmatchedBracketsException(str, tmp);
 		}
 		return pos;
 	}

@@ -1,7 +1,7 @@
 
 package com.github.sahasatvik.math;
 
-class MathParser {
+public class MathParser {
 	protected static boolean isNumber (String str) {
 		try {
 			Double.parseDouble(str);
@@ -18,7 +18,7 @@ class MathParser {
 			n *= x--;
 		return n;
 	}
-	protected static String solveBinaryOperation (double a, String op, double b) throws Exception {
+	protected static double solveBinaryOperation (double a, String op, double b) {
 		double result = 0.0;
 		if (op.equals("^")) {
 			result = Math.pow(a, b);
@@ -33,9 +33,9 @@ class MathParser {
 		} else if (op.equals("-")) {
 			result = a - b;
 		}
-		return "" + result;
+		return result;
 	}
-	protected static String solveUnaryFunction (String func, double x) throws Exception {
+	protected static double solveUnaryFunction (String func, double x) throws FunctionNotFoundException {
 		double result = 0.0;
 		if (func.equals("sin")) {
 			result = Math.sin(x);
@@ -57,7 +57,13 @@ class MathParser {
 			result = factorial(x);
 		} else if (func.equals("abs")) {
 			result = Math.abs(x);
+		} else if (func.equals("exp")) {
+			result = Math.exp(x);
+		} else if (func.equals("log")) {
+			result = Math.log(x);
+		} else {
+			throw new FunctionNotFoundException(func + "[]");
 		}
-		return "" + result;
+		return result;
 	}
 } 
