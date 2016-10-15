@@ -8,7 +8,8 @@ Following are some valid expressions :
 ```
 	1 + 1			=>		 2.0
 	1 * (2 + 3)		=>		 5.0
-	10 * (64 ^ -0.5)	=>		1.25
+	10 * (64 ^ -0.5)
+					=>		1.25
 ```
 
 ##Variables
@@ -23,12 +24,13 @@ Following are some valid uses of variables :
 	x = 3			=>		 3.0
 	y = <x> + 1		=>		 4.0
 	(<x>^2 + <y>^2)^0.5	
-				=>		 5.0 
+					=>		 5.0 
 ```
 
 Nesting of assignments is also supported, as follows : 
 ```
-	x = 1 + (y = 1)		=>		 2.0
+	x = 1 + (y = 1)		
+					=>		 2.0
 	<x>			=>		 2.0
 	<y>			=>		 1.0
 ```
