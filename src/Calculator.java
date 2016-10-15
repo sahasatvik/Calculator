@@ -7,6 +7,15 @@ class Calculator {
 	public static String previousAns;
 	public static ExpressionParser expParser;
 	public static void main (String[] args) {
+		
+		System.out.print("\nCalculator by Satvik Saha");
+		System.out.print("\n-------------------------");
+		System.out.print("\n   An up-to-date version of Calculator can be found at : ");
+		System.out.print("\n      https://github.com/sahasatvik/Calculator");
+		System.out.print("\n");
+		System.out.print("\n   Type  /help  to read a guide on how to use this program.");
+		System.out.print("\n");
+		
 		Scanner inp = new Scanner(System.in);
 		
 		expParser = new ExpressionParser(32);
@@ -143,6 +152,7 @@ class Calculator {
 			System.out.print("\n	/list vars			>	list variables");
 			System.out.print("\n	/list funcs			>	list functions");
 			System.out.print("\n	/list cmds  or  /list		>	list commands");
+			System.out.print("\n	/exit				>	exit Calculator");
 		} else if (command.equals("list vars")) {
 			System.out.print("$> Variables : \n");
 			for (int i = 0; i < expParser.numberOfVars; i++) {

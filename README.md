@@ -74,10 +74,10 @@ A complete list of commands :
 Command | Purpose
 ------- | --------
 `/help` | general help
-`/help vars` | help on Variables
-`/help funcs` | help on Functions
-`/help cmds` | help on Commands
-`/list vars` | list variables
-`/list funcs` | list functions
-`/list cmds`  or  `/list` | list commands
-
+`/help vars` | help on *Variables*
+`/help funcs` | help on *Functions*
+`/help cmds` | help on *Commands*
+`/list vars` | list *Variables*
+`/list funcs` | list *Functions*
+`/list cmds`  or  `/list` | list *Commands*
+`/exit` | exit *Calculator*
