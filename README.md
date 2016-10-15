@@ -37,7 +37,7 @@ Nesting of assignments is also supported, as follows :
 A special variable `<ans>` stores the previous expression. Thus, the following is valid : 
 ```
 	1 * 2 * 3 * 4	=>		24.0
-	<ans> * 5		=>	       120.0
+	<ans> * 5		=>     120.0
 ```			
 ##Functions
 *Calculator* supports the use of some basic *functions*. They can be used with the following syntax : 
