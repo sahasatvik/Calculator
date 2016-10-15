@@ -5,9 +5,11 @@ This is a simple java application written to evaluate mathematical expressions.
 parenthesis (`(`, `)`).	*Calculator* follows the BODMAS rule.
 
 Following are some valid expressions : 
+```
 	1 + 1			=>		 2.0
 	1 * (2 + 3)		=>		 5.0
 	10 * (64 ^ -0.5)	=>		1.25
+```
 
 ##Variables
 *Calculator* can also store user-defined *variables*. The syntax for assigning and using variables is as follows : 
