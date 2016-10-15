@@ -41,7 +41,6 @@ public class ExpressionParser extends MathParser {
 			exp = varValue;
 		} else {
 			exp = parseVariables(exp);
-			exp = adjustNumberSpacing(exp);
 			exp = parseParenthesis(exp);
 			exp = parseFunctions(exp);
 			exp = parseOperators(exp);
@@ -63,6 +62,7 @@ public class ExpressionParser extends MathParser {
 		if (start != -1 && end != -1 && start < end) {
 			throw new VariableNotFoundException(exp, exp.substring(start, end + 1));
 		}
+		exp = adjustNumberSpacing(exp);
 		return exp.trim();	
 	}
 	public String parseParenthesis (String exp) throws ExpressionParserException {
@@ -85,8 +85,9 @@ public class ExpressionParser extends MathParser {
 	}
 	public String parseFunctions (String exp) throws ExpressionParserException {
 		String func = "";
+		exp = " " + exp;
 		double x = 0.0;
-		double result = 0.0;
+		String result = "";
 		try {
 			exp = exp.replaceAll(numberRegex + "\\s+!", " fct[$1] ");
 			while (exp.indexOf("[") != -1) {
@@ -94,7 +95,11 @@ public class ExpressionParser extends MathParser {
 				int end = indexOfMatchingBracket(exp, start, '[', ']');
 				func = exp.substring(start - 3, start);
 				x = Double.parseDouble(evaluate(exp.substring(start + 1, end)));
-				result = solveUnaryFunction(func, x); 
+				result = "" + solveUnaryFunction(func, x); 
+				if (exp.charAt(start - 4) == '-') {
+					result = evaluate(" ( -1 * ( " + result + " ) ) ");
+					start--;
+				}
 				exp = exp.substring(0, start-3) + " " 
 						    + result + " "
 						    + exp.substring(end+1);
@@ -103,9 +108,12 @@ public class ExpressionParser extends MathParser {
 			throw new FunctionNotFoundException(exp, func);
 		} catch (NullExpressionException e) {
 			throw new MissingOperandException(exp, func + "[]");
+		} catch (ExpressionParserException e) {
+			throw e;
 		} catch (Exception e) {
 			throw new ExpressionParserException(exp);
 		}
+		exp = adjustNumberSpacing(exp);
 		return exp.trim();
 	}
 	public String parseOperators (String exp) throws MissingOperandException {
