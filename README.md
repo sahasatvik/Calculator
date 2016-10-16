@@ -17,7 +17,7 @@ Following are some valid expressions :
 ```
 	var = value		>	assign 'value' to 'var'
 	<var>			>	<var> will be replaced
-					its value.
+						by its value.
 ```			
 Following are some valid uses of variables : 
 ```

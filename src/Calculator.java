@@ -56,7 +56,7 @@ class Calculator {
 				System.out.print("!> Unmatched brackets in expression !");
 				System.out.print("\n   " + e.getFaultyExpression());
 				System.out.print("\n   ");
-				for (int i = 0; i < e.getPositionOfBracket(); i++) {
+				for (int i = 0; i < e.getIndexOfBracket(); i++) {
 					System.out.print(" ");
 				}
 				System.out.print("^");

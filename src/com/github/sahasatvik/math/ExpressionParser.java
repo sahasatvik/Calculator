@@ -1,13 +1,24 @@
 
 package com.github.sahasatvik.math;
 
+/**
+ * ExpressionParser provides methods for evaluating mathematical expressions, specifically
+ * tailored for parsing with this library. ExpressionParser supports basic arihmetic operators,
+ * parenthesized expressions, variable substitution as well as basic functions.
+ *
+ * 	@author		Satvik Saha
+ * 	@version	1.0, 16/10/2016
+ * 	@see		com.github.sahasatvik.math.MathParser
+ * 	@since		1.o
+ */
+
 public class ExpressionParser extends MathParser {
 	
-	public static String numberRegex = "(([+-]?)\\d+(\\.\\d+)?([eE](-?)\\d+)?)"; 
-	public static String signedNumberRegex = "([+-]\\d+(\\.\\d+)?([eE](-?)\\d+)?)";
-	public static String assignmentRegex = "(\\s+)?(\\w+)(\\s+)(=)(.*)";
+	protected static final String numberRegex = "(([+-]?)\\d+(\\.\\d+)?([eE](-?)\\d+)?)"; 
+	protected static final String signedNumberRegex = "([+-]\\d+(\\.\\d+)?([eE](-?)\\d+)?)";
+	protected static final String assignmentRegex = "(\\s+)?(\\w+)(\\s+)(=)(.*)";
 
-	public static String[] operators = {"^", "%", "/", "*", "+", "-"};
+	protected static final String[] operators = {"^", "%", "/", "*", "+", "-"};
 	
 	public String[][] variables;
 	public int numberOfVars;
@@ -53,7 +64,7 @@ public class ExpressionParser extends MathParser {
 		}
 		return result;
 	}
-	public String parseVariables (String exp) throws VariableNotFoundException {
+	protected String parseVariables (String exp) throws VariableNotFoundException {
 		for (int i = 0; i < numberOfVars; i++) {
 			exp = exp.replaceAll("<(\\s+)?" + variables[i][0] + "(\\s+)?>", variables[i][1]);
 		}
@@ -65,7 +76,7 @@ public class ExpressionParser extends MathParser {
 		exp = adjustNumberSpacing(exp);
 		return exp.trim();	
 	}
-	public String parseParenthesis (String exp) throws ExpressionParserException {
+	protected String parseParenthesis (String exp) throws ExpressionParserException {
 		String result = "";
 		exp = " " + exp;
 		while (exp.indexOf("(") != -1) {
@@ -83,7 +94,7 @@ public class ExpressionParser extends MathParser {
 		exp = adjustNumberSpacing(exp);
 		return exp.trim();
 	}
-	public String parseFunctions (String exp) throws ExpressionParserException {
+	protected String parseFunctions (String exp) throws ExpressionParserException {
 		String func = "";
 		exp = " " + exp;
 		double x = 0.0;
@@ -116,7 +127,7 @@ public class ExpressionParser extends MathParser {
 		exp = adjustNumberSpacing(exp);
 		return exp.trim();
 	}
-	public String parseOperators (String exp) throws MissingOperandException {
+	protected String parseOperators (String exp) throws MissingOperandException {
 		String[] stack = exp.split("\\s+");
 		for (String op : operators) {
 			for (int i = 0; i < stack.length; i++) {
@@ -145,12 +156,12 @@ public class ExpressionParser extends MathParser {
 		}
 		return exp.trim();
 	}
-	public static String adjustNumberSpacing (String exp) {
+	protected static String adjustNumberSpacing (String exp) {
 		exp = exp.replaceAll(numberRegex, " $0 ");
 		exp = exp.replaceAll(numberRegex + "\\s+" + signedNumberRegex, " $1 + $6 ");
 		return exp;	
 	}
-	public static int indexOfMatchingBracket (String str, int pos, char open, char close) 
+	protected static int indexOfMatchingBracket (String str, int pos, char open, char close) 
 								throws UnmatchedBracketsException {
 		int tmp = pos;
 		while (++pos < str.length()) {
