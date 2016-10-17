@@ -9,7 +9,7 @@ You can start at `docs/index.html`, or click the link in the header to view the 
 *Calculator* can evaluate simple arithmetic expressions, using the operators (`+`, `-`, `*`, `/`, `^`(power)), as well as 
 parenthesis (`(`, `)`).	*Calculator* follows the BODMAS rule.
 
-####Examples
+###Examples
 ```
 	1 + 1			=>		 2.0
 	1 * (2 + 3)		=>		 5.0
@@ -20,14 +20,14 @@ parenthesis (`(`, `)`).	*Calculator* follows the BODMAS rule.
 ##Variables
 *Calculator* can also store user-defined *variables*. A total of 32 variables can be stored in one runtime.
 
-####Syntax
+###Syntax
 ```
 	var = value		>	assign 'value' to 'var'
 	<var>			>	<var> will be replaced
 						by its value.
 ```			
 
-####Uses
+###Uses
 ```
 	x = 3			=>		 3.0
 	y = <x> + 1		=>		 4.0
@@ -35,7 +35,7 @@ parenthesis (`(`, `)`).	*Calculator* follows the BODMAS rule.
 					=>		 5.0 
 ```
 
-####Miscellaneous features
+###Miscellaneous features
 Nesting of assignments is also supported, as follows : 
 ```
 	x = 1 + (y = 1)		
@@ -51,19 +51,19 @@ A special variable `<ans>` stores the previous expression. Thus, the following i
 ##Functions
 *Calculator* supports the use of some basic *functions*.
 
-####Syntax
+###Syntax
 ```
 	fnc[ value ]	>	evaluate 'fnc' of 'value'
 ```
 
-####Uses
+###Uses
 ```
 	sin[<pi> / 2]	=>		 1.0
 	1 + abs[2 - 3]	=>		 2.0
 	log[<e> ^ 3]	=>		 3.0
 ```
 
-####Supported Functions
+###Supported Functions
 
 Function | Value returned
 -------- | --------------
@@ -80,7 +80,7 @@ Function | Value returned
 *Calculator* interprets expressions starting with `/` as *commands*. These are special expressions which are not parsed 
 as mathematical expressions, but as instructions to the *Calculator*.
 
-####Supported Commands
+###Supported Commands
 
 Command | Purpose
 ------- | --------
