@@ -74,12 +74,18 @@ public class ExpressionParser extends MathParser {
 	 */
 
 	public void addVariable (String name, String value) {
+		/* Loop through the stored variables */
 		for (int i = 0; i < numberOfVars; i++) {
+			/* If the variable already exists, simply update the value */
 			if (variables[i][0].equals(name)) {
 				variables[i][1] = value;
 				return;
 			}
 		}
+		/* 
+		 * Create a new variable by storing the name and value in the variables array,
+		 * then update numberOfVars
+		 */
 		variables[numberOfVars][0] = name;
 		variables[numberOfVars][1] = value;
 		numberOfVars++;
@@ -106,24 +112,48 @@ public class ExpressionParser extends MathParser {
 	public String evaluate (String exp) throws ExpressionParserException {
 		String result = exp;
 		if (exp.trim().length() == 0) {
+			/* Throw an Exception if the expression is blank */
 			throw new NullExpressionException();
 		} else if (isNumber(exp)) {
+			/* If the expression is already a number, there is nothing to evaluate */
 			return "" + Double.parseDouble(exp);
 		} else if (exp.matches(assignmentRegex)) {
+			/* 
+			 * If the expression is an assignment statement, interpret everything before
+			 * the equals sign (=) as the variable name. The rest is simply another
+			 * expression, which is also the value of the variable.
+			 */
 			String varName = exp.substring(0, exp.indexOf("=")).trim();
 			String varValue = evaluate(exp.substring(exp.indexOf("=") + 1));
+			
+			/* 
+			 * Add the variable in the cache, then use the value of the variable 
+			 * as the evaluated result 
+			 */
 			addVariable(varName, varValue);
 			exp = varValue;
 		} else {
+			/* 
+			 * Replace all variables with their values, 
+			 * solve everything within parenthesis, 
+			 * then Solve all functions 
+			 */
 			exp = parseVariables(exp);
 			exp = parseParenthesis(exp);
 			exp = parseFunctions(exp);
+			
+			/* 
+			 * The expression is now simply a collection of numbers and arithmetic operators.
+			 * Finish off the process by solving each operation, following the BODMAS rule.
+			 */
 			exp = parseOperators(exp);
 		} 
 		
-		try {
+		try {	
+			/* Check if the result is a valid number */
 			result = "" + Double.parseDouble(exp);
 		} catch (Exception e) {
+			/* Throw an Exception if the result is not a number */
 			throw new ExpressionParserException(exp);
 		}
 		return result;
@@ -146,14 +176,31 @@ public class ExpressionParser extends MathParser {
 	 */
 
 	protected String parseVariables (String exp) throws VariableNotFoundException {
+		/* 
+		 * Loop through the variable cache, checking for occurrences of the variables
+		 * (enclosed within angled brackets)(<var_name>)
+		 */
 		for (int i = 0; i < numberOfVars; i++) {
-			exp = exp.replaceAll("<(\\s+)?" + variables[i][0] + "(\\s+)?>", variables[i][1]);
+			/* Replace all instances of the variable with its value directly */
+			exp = exp.replaceAll("<(\\s+)?" + variables[i][0] + "(\\s+)?>"
+							, variables[i][1]);
 		}
+
+		/* 
+		 * Check if any unrecognized variables are present. This can be done very simply as
+		 * the presence of angled brackets (<>) indicates an unreplaced variable.
+		 */
 		int start = exp.indexOf("<");
 		int end = exp.indexOf(">");
 		if (start != -1 && end != -1 && start < end) {
+			/*
+			 * Extract the unreplaced variable name, which is clearly in between the angled
+			 * brackets, then throw an Exception.
+			 */
 			throw new VariableNotFoundException(exp, exp.substring(start, end + 1));
 		}
+
+		/* Adjust the number spacing before passing the expression back to the evaluater */
 		exp = adjustNumberSpacing(exp);
 		return exp.trim();	
 	}
@@ -179,19 +226,36 @@ public class ExpressionParser extends MathParser {
 
 	protected String parseParenthesis (String exp) throws ExpressionParserException {
 		String result = "";
-		exp = " " + exp;
+		/* 
+		 * Buffer the extreme ends with spaces, to make sure no Exceptions are thrown
+		 * while extracting portions of the expression.
+		 */
+		exp = " " + exp + " ";
+
+		/* Continue replacing parenthesized sections as long as a parenthesis is present */
 		while (exp.indexOf("(") != -1) {
+			/* Store the indices of the opening and closing parenthesis */
 			int start = exp.indexOf("(");
 			int end = indexOfMatchingBracket(exp, start, '(', ')');
+			/* The enclosed section is simply another expression. Pass it to the evaluater */
 			result = evaluate(exp.substring(start + 1, end));
+
+			/* 
+			 * This is a special case. Make sure that ' -(some_expression) ' is interpreted
+			 * as the negative of that expression.
+			 */
 			if (exp.charAt(start - 1) == '-') {
+				/* Multiply the enclosed section by -1, then evaluate the result */
 				result = " ( -1 * ( " + result + " ) ) ";
 				start--;
 			}
-			exp = exp.substring(0, start) + " " 
-					    + result + " " 
-					    + exp.substring(end + 1);
+
+			/* Graft the evaluated parenthesized portion back into the original expression */
+			exp = exp.substring(0, start) + " " 		// before the opening bracket
+					    + result + " " 		// evaluated part
+					    + exp.substring(end + 1);	// after the closing bracket
 		}
+		/* Adjust the number spacing before passing the expression back to the evaluater */
 		exp = adjustNumberSpacing(exp);
 		return exp.trim();
 	}
@@ -224,34 +288,77 @@ public class ExpressionParser extends MathParser {
 
 	protected String parseFunctions (String exp) throws ExpressionParserException {
 		String func = "";
-		exp = " " + exp;
 		double x = 0.0;
 		String result = "";
+		/* 
+		 * Buffer the extreme ends with spaces, to make sure no Exceptions are thrown
+		 * while extracting portions of the expression.
+		 */
+		exp = " " + exp + " ";
 		try {
+			/* 
+			 * This is another special case. Make sure that expressions of the form
+			 * 'number!' are interpreted as the factorial of that number. This can
+			 * be done simply by replacing all such cases with the expression 'fct[number]',
+			 * as 'fct[]' is a valid function name and can be calculated later.
+			 */
 			exp = exp.replaceAll(numberRegex + "\\s+!", " fct[$1] ");
+
+			/* 
+			 * Continue evaluating functions as long as square brackets ([]) are present.
+			 * Here, a function is reperssented in the format 'fnc[expression]'. Thus, the
+			 * presence of square brackets ([]) implies that a function is present.
+			 */
 			while (exp.indexOf("[") != -1) {
+				/* Store the indices of the opening and closing square brackets */
 				int start = exp.indexOf("[");
 				int end = indexOfMatchingBracket(exp, start, '[', ']');
+				
+				/* 
+				 * Here, all function names are exactly 3 characters long. Thus, the
+				 * function name is simply the 3 characters preceding the opening bracket.
+				 */
 				func = exp.substring(start - 3, start);
+				
+				/*
+				 * The section enclosed within the brackets is also an expression.
+				 * Evaluate it, and check whether it is a number. This will be the 
+				 * function argument.
+				 */
 				x = Double.parseDouble(evaluate(exp.substring(start + 1, end)));
+
+				/* Pass the function name and argument to a function solver */
 				result = "" + solveUnaryFunction(func, x); 
+
+				/* 
+			 	* This is a special case similar to that in parseParenthesis(String). 
+				* Make sure that ' -fnc[some_expression] ' is interpreted as the negative 
+				* of the result of that function.
+			 	*/
 				if (exp.charAt(start - 4) == '-') {
+					/* Multiply the enclosed section by -1, then evaluate the result */
 					result = evaluate(" ( -1 * ( " + result + " ) ) ");
 					start--;
 				}
-				exp = exp.substring(0, start-3) + " " 
-						    + result + " "
-						    + exp.substring(end+1);
+				/* Graft the evaluated portion back into the original expression */
+				exp = exp.substring(0, start-3) + " "		// before the function
+						    + result + " "		// evaluated part
+						    + exp.substring(end+1);	// after the function
 			}
-		} catch (FunctionNotFoundException e) {
-			throw new FunctionNotFoundException(exp, func);
 		} catch (NullExpressionException e) {
+			/* Throw an Exceeption if the function is missing its argument */
 			throw new MissingOperandException(exp, func + "[]");
+		} catch (FunctionNotFoundException e) {
+			/* Throw an Exception if an extracted function name is unsupported */
+			throw new FunctionNotFoundException(exp, func);
 		} catch (ExpressionParserException e) {
+			/* Pass on any Exceptions encountered while evaluating the argument */
 			throw e;
 		} catch (Exception e) {
+			/* Pass on any other Exceptions as ExpressionParserExceptions */
 			throw new ExpressionParserException(exp);
 		}
+		/* Adjust the number spacing before passing the expression back to the evaluater */
 		exp = adjustNumberSpacing(exp);
 		return exp.trim();
 	}
@@ -279,22 +386,33 @@ public class ExpressionParser extends MathParser {
 		/* Split the expression into a stack of operators and operands */
 		String[] stack = exp.split("\\s+");
 
+		/* Loop through all supported operators (in order) */
 		for (String op : operators) {
+			/* Loop through the stack, searching for a match with the operator */
 			for (int i = 0; i < stack.length; i++) {
 				if (stack[i].equals(op)) {
 					leftIndex = rightIndex = i;
+					/* Keep on searching before the operator until a valid operand is found */
 					while (leftIndex >= 0 && !isNumber(stack[leftIndex]))
 						leftIndex--;
+					/* Keep on searching after the operator until a valid operand is found */
 					while (rightIndex < stack.length && !isNumber(stack[rightIndex]))
 						rightIndex++;
 					try {
+						/* Get the operands */
 						double left = Double.parseDouble(stack[leftIndex]);
 						double right = Double.parseDouble(stack[rightIndex]);
+						/* 
+						 * Pass the operands and the operator to an operator solver, 
+						 * then replace the operator with the result. Also remove the
+						 * operands.
+						 */
 						stack[i] = "" + solveBinaryOperation(left, op, right);
+						stack[leftIndex] = stack[rightIndex] = "";
 					} catch (Exception e) {
+						/* Throw an Exception if there is a missing operand */
 						throw new MissingOperandException(exp, op);
 					}
-					stack[leftIndex] = stack[rightIndex] = "";
 				}
 			}
 		}
@@ -319,7 +437,9 @@ public class ExpressionParser extends MathParser {
 	 */
 
 	protected static String adjustNumberSpacing (String exp) {
+		/* Make sure numbers are all spaced out from other symbols */
 		exp = exp.replaceAll(numberRegex, " $0 ");
+		/* Make sure the sign signed numbers is also considered during addition/subtraction */
 		exp = exp.replaceAll(numberRegex + "\\s+" + signedNumberRegex, " $1 + $6 ");
 		return exp;	
 	}
@@ -342,13 +462,23 @@ public class ExpressionParser extends MathParser {
 	protected static int indexOfMatchingBracket (String str, int pos, char open, char close) 
 								throws UnmatchedBracketsException {
 		int tmp = pos;
+		/* Loop through the String, forward from the position of the opening bracket */
 		while (++pos < str.length()) {
+			/* Exit the loop as soon as a closing bracket is found */
 			if (str.charAt(pos) == close)
 				return pos;
+			/* 
+			 * If another opening bracket is found, it becomes clear that bracketed expressions
+			 * have been nested. Thus, the next closing bracket will not match the bracket
+			 * we have targeted. In order to return the correct bracket, simply skip everything
+			 * within the nested portion. This is done by calling 
+			 * indexOfMatchingBracket(String, int, char, char) recursively.
+			 */
 			if (str.charAt(pos) == open)
 				pos = indexOfMatchingBracket(str, pos, open, close);
 		}
 		if (pos >= str.length()) {
+			/* Throw an Exception if a matching bracket is not present */
 			throw new UnmatchedBracketsException(str, tmp);
 		}
 		return pos;
