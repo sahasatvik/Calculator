@@ -132,8 +132,8 @@ public class ExpressionParser extends MathParser {
 	/**
 	 * Substitutes all instances of the variables in the cache with their values.
 	 * A variable name present in the expression must be enclosed within angled brackets
-	 * (<pre>{@code <}</pre>, <pre>{@code >}</pre>) in order to be recognized. 
-	 * For example, if <code>x = 10.0</code>, then all instances of <pre>{@code <x>}</pre> 
+	 * (<code>&#60;</code>, <code>&#62;</code>) in order to be recognized. 
+	 * For example, if <code>x = 10.0</code>, then all instances of <code>&#60;x&#62;</code> 
 	 * will be replaced with <code>10.0</code>
 	 *
 	 * 	@param	exp			the expression to be parsed
