@@ -1,10 +1,15 @@
 #Calculator
 This is a simple java application written to evaluate mathematical expressions.
-			
+
+##[Documentation](http://htmlpreview.github.io/?http://github.com/sahasatvik/Calculator/master/docs/index.html)
+The `docs/` folder in this repository contains an extensive documentation of the libraries used by Calculator.
+You can start at `docs/index.html`, or click the link in the header to view the one hosted online.
+
+##Arithmetic Expressions
 *Calculator* can evaluate simple arithmetic expressions, using the operators (`+`, `-`, `*`, `/`, `^`(power)), as well as 
 parenthesis (`(`, `)`).	*Calculator* follows the BODMAS rule.
 
-Following are some valid expressions : 
+####Examples
 ```
 	1 + 1			=>		 2.0
 	1 * (2 + 3)		=>		 5.0
@@ -13,13 +18,16 @@ Following are some valid expressions :
 ```
 
 ##Variables
-*Calculator* can also store user-defined *variables*. The syntax for assigning and using variables is as follows : 
+*Calculator* can also store user-defined *variables*. A total of 32 variables can be stored in one runtime.
+
+####Syntax
 ```
 	var = value		>	assign 'value' to 'var'
 	<var>			>	<var> will be replaced
 						by its value.
 ```			
-Following are some valid uses of variables : 
+
+####Uses
 ```
 	x = 3			=>		 3.0
 	y = <x> + 1		=>		 4.0
@@ -27,6 +35,7 @@ Following are some valid uses of variables :
 					=>		 5.0 
 ```
 
+####Miscellaneous features
 Nesting of assignments is also supported, as follows : 
 ```
 	x = 1 + (y = 1)		
@@ -40,19 +49,21 @@ A special variable `<ans>` stores the previous expression. Thus, the following i
 	<ans> * 5		=>     120.0
 ```			
 ##Functions
-*Calculator* supports the use of some basic *functions*. They can be used with the following syntax : 
+*Calculator* supports the use of some basic *functions*.
+
+####Syntax
 ```
 	fnc[ value ]	>	evaluate 'fnc' of 'value'
 ```
 
-Following are some valid uses of functions : 
+####Uses
 ```
 	sin[<pi> / 2]	=>		 1.0
 	1 + abs[2 - 3]	=>		 2.0
 	log[<e> ^ 3]	=>		 3.0
 ```
 
-A complete list of functions :
+####Supported Functions
 
 Function | Value returned
 -------- | --------------
@@ -69,7 +80,7 @@ Function | Value returned
 *Calculator* interprets expressions starting with `/` as *commands*. These are special expressions which are not parsed 
 as mathematical expressions, but as instructions to the *Calculator*.
 
-A complete list of commands :
+####Supported Commands
 
 Command | Purpose
 ------- | --------
