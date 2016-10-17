@@ -9,7 +9,7 @@ package com.github.sahasatvik.math;
  * 	@author		Satvik Saha
  * 	@version	1.0, 16/10/2016
  * 	@see		com.github.sahasatvik.math.MathParser
- * 	@since		1.o
+ * 	@since		1.0
  */
 
 public class ExpressionParser extends MathParser {
