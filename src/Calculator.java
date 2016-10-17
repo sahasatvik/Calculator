@@ -75,7 +75,7 @@ class Calculator {
 			System.exit(0);
 		} else if (command.equals("help")) {
 			System.out.print("$> Calculator Helptext");
-			System.out.print("\n ~~~~~~~~~~~~~~~~~~~");
+			System.out.print("\n   ~~~~~~~~~~~~~~~~~~~");
 			System.out.print("\n	    Welcome to  'Calculator', a simple java application written to");
 			System.out.print("\n	evaluate mathematical expressions.");
 			System.out.print("\n	    This program displays a prompt (?>), after which you can enter");
