@@ -22,6 +22,7 @@ public class ExpressionParserException extends Exception {
 
 	public ExpressionParserException (String faultyExpression) {
 		super("ExpressionParserException");
+		/* Store the bad expression */
 		this.faultyExpression = faultyExpression;
 	}
 

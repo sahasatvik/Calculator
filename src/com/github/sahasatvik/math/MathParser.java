@@ -23,6 +23,7 @@ public class MathParser {
 	
 	protected static boolean isNumber (String str) {
 		try {
+			/* Return true only if parseDouble(String) doesn't complain! */
 			Double.parseDouble(str);
 			return true;
 		} catch (Exception e) {
@@ -39,7 +40,8 @@ public class MathParser {
 	 */
 
 	protected static double factorial (double x) {
-		if (x == 0)
+		/* Special cases! */
+		if (x < 2)
 			return 1;
 		double n = 1;
 		while (x > 0)
@@ -65,6 +67,10 @@ public class MathParser {
 
 	protected static double solveBinaryOperation (double a, String op, double b) {
 		double result = 0.0;
+		/* 
+		 * Match the operator against a list of supported ones, then
+		 * perform the appropriate operation.
+		 */
 		if (op.equals("^")) {
 			result = Math.pow(a, b);
 		} else if (op.equals("%")) {
@@ -106,8 +112,13 @@ public class MathParser {
 	 *	@since	1.0
 	 */
 	
-	protected static double solveUnaryFunction (String func, double x) throws FunctionNotFoundException {
+	protected static double solveUnaryFunction (String func, double x)
+						throws FunctionNotFoundException {
 		double result = 0.0;
+		/*
+		 * Math the function name against supported ones, then
+		 * perform the appropriate operation.
+		 */
 		if (func.equals("sin")) {
 			result = Math.sin(x);
 		} else if (func.equals("cos")) {
@@ -133,6 +144,10 @@ public class MathParser {
 		} else if (func.equals("log")) {
 			result = Math.log(x);
 		} else {
+			/* 
+			 * Throw an Exception if the function name does not 
+			 * match any supported one.
+			 */
 			throw new FunctionNotFoundException(func + "[]");
 		}
 		return result;

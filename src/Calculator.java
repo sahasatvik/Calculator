@@ -14,7 +14,9 @@ import com.github.sahasatvik.math.*;
  *
  * 	@author		Satvik Saha
  * 	@version	1.0, 17/10/2016
- * 	@see		<a href="http://github.com/sahasatvik/Calculator">http://github.com/sahasatvik/Calculator</a>
+ * 	@see		<a href="http://github.com/sahasatvik/Calculator">
+ * 				http://github.com/sahasatvik/Calculator
+ * 			</a>
  * 	@see		com.github.sahasatvik.math.ExpressionParser
  * 	@since		1.0
  */

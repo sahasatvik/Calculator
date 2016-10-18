@@ -287,9 +287,9 @@ public class ExpressionParser extends MathParser {
 	 */
 
 	protected String parseFunctions (String exp) throws ExpressionParserException {
+		String result = "";
 		String func = "";
 		double x = 0.0;
-		String result = "";
 		/* 
 		 * Buffer the extreme ends with spaces, to make sure no Exceptions are thrown
 		 * while extracting portions of the expression.
