@@ -382,6 +382,23 @@ public class ExpressionParser extends MathParser {
 
 	protected String parseOperators (String exp) throws MissingOperandException {
 		int leftIndex, rightIndex;
+		
+		try {
+			/*
+			 * This code addresses a small problem in directly implementing BODMAS.
+			 * Expressions like (1 - 2 + 3) will mistakenly evaluate to (-4) if the addition
+			 * is done first, disregarding the minus sign before the (2).
+			 * Eliminate this problem by changing all instances of subtraction to addition
+			 * of the second operand's negative form. Thus, the minus sign acting as an operator
+			 * now becomes part of the number itself, and all ambiguity disappears.
+			 */
+			exp = exp.replaceAll(numberRegex + "\\s+-\\s+" + numberRegex, " $1 + -($6) ");
+			exp = parseParenthesis(exp);
+		} catch (Exception e) {
+			/* Something went seriously wrong - the expressions in the 'try' block were valid */
+			System.out.print("You should never see this message. If you do, please inform the author.");
+			e.printStackTrace();
+		}
 
 		/* Split the expression into a stack of operators and operands */
 		String[] stack = exp.split("\\s+");
@@ -439,7 +456,7 @@ public class ExpressionParser extends MathParser {
 	protected static String adjustNumberSpacing (String exp) {
 		/* Make sure numbers are all spaced out from other symbols */
 		exp = exp.replaceAll(numberRegex, " $0 ");
-		/* Make sure the sign signed numbers is also considered during addition/subtraction */
+		/* Make sure the sign in signed numbers is also considered during addition/subtraction */
 		exp = exp.replaceAll(numberRegex + "\\s+" + signedNumberRegex, " $1 + $6 ");
 		return exp;	
 	}
