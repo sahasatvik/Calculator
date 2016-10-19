@@ -392,8 +392,10 @@ public class ExpressionParser extends MathParser {
 			 * of the second operand's negative form. Thus, the minus sign acting as an operator
 			 * now becomes part of the number itself, and all ambiguity disappears.
 			 */
-			exp = exp.replaceAll(numberRegex + "\\s+-\\s+" + numberRegex, " $1 + -($6) ");
-			exp = parseParenthesis(exp);
+			while (exp.matches("(.*)" + numberRegex + "\\s+-\\s+" + numberRegex + "(.*)")) {
+				exp = exp.replaceAll(numberRegex + "\\s+-\\s+" + numberRegex, " $1 + -($6) ");
+				exp = parseParenthesis(exp);
+			}
 		} catch (Exception e) {
 			/* Something went seriously wrong - the expressions in the 'try' block were valid */
 			System.out.print("You should never see this message. If you do, please inform the author.");

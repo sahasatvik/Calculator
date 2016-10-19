@@ -264,7 +264,7 @@ public class Calculator {
 			for (int i = 0; i < expParser.numberOfVars; i++) {
 				/* Pretty-print the variables */
 				System.out.printf("%n\t%-16s=%30s", expParser.variables[i][0]
-								 , expParser.variables[i][1]);
+								  , expParser.variables[i][1]);
 			}
 			/* Display the previously evaluated answer as a special variable : 'ans' */
 			System.out.printf("%n\t%-16s=%30s", "ans", previousAns);
