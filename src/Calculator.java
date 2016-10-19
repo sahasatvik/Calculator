@@ -106,7 +106,7 @@ public class Calculator {
 				System.out.print("=> " + previousAns);
 			} catch (NullExpressionException e) {
 				/* Catch empty input */
-				System.out.print("!> Null Expreesion !");
+				System.out.print("!> Null Expression !");
 			} catch (MissingOperandException e) {
 				/* Catch input missing an operand */
 				System.out.print("!> Missing operand to " + e.getOperator() + " !");
