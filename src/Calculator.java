@@ -6,7 +6,7 @@ import com.github.sahasatvik.math.*;
  * the result. Calculator can parse arithmetic operators as well as some functions, store variables,
  * and carry out some pre-defined commands.
  *
- * A complete manual on how to use this application can be found in the README files, or by entering 
+ * A complete manual on how to use this application can be found in the README files, or by entering
  * <code>/help</code> during runtime.
  *
  * A continuously updated version of this project can be found online at my
@@ -22,7 +22,7 @@ import com.github.sahasatvik.math.*;
  */
 
 public class Calculator {
-	
+
 	/**
 	 * Regex which matches a command. This is simply a string of characters following a forward
 	 * slash (<code>/</code>).
@@ -46,7 +46,7 @@ public class Calculator {
 	 * 	@since	1.0
 	 */
 	public static void main (String[] args) {
-		
+
 		/* Store the expression entered by the user */
 		String expression;
 		/* If the expression is a command, store it here */
@@ -62,17 +62,17 @@ public class Calculator {
 		System.out.print("\n");
 		System.out.print("\n   Type  /help  to read a guide on how to use this program.");
 		System.out.print("\n");
-		
+
 		/* Setup the input system */
 		Scanner inp = new Scanner(System.in);
-		
+
 		/* Setup the ExpressionParser, which will parse the input */
 		expParser = new ExpressionParser(32);
 		/* Add some commonly used mathematical constants */
 		expParser.addVariable("e", ("" + Math.E));
 		expParser.addVariable("pi", ("" + Math.PI));
 		expParser.addVariable("phi", ("" + (Math.sqrt(5.0) + 1.0) / 2.0));
-		
+
 		/* Start the input loop */
 		while (true) {
 			/* Display a simple prompt */
@@ -80,12 +80,12 @@ public class Calculator {
 
 			/* Accept a line of input */
 			expression = inp.nextLine().trim();
-			
+
 			/* Check whether the input is a command */
 			if (expression.matches(commandRegex)) {
 				/* Extract the content of the command */
 				command = expression.substring(expression.indexOf("/") + 1).trim();
-				
+
 				try {
 					/* Parse the command */
 					parseCommand(command);
@@ -121,7 +121,7 @@ public class Calculator {
 			} catch (UnmatchedBracketsException e) {
 				/* Catch input with unclosed brackets */
 				System.out.print("!> Unmatched brackets in expression !");
-				
+
 				/* Display the expression entered */
 				System.out.print("\n   " + e.getFaultyExpression());
 				System.out.print("\n   ");
@@ -290,4 +290,4 @@ public class Calculator {
 			throw new CommandNotFoundException(command);
 		}
 	}
-} 
+}
