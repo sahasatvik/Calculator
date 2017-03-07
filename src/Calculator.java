@@ -13,12 +13,12 @@ import com.github.sahasatvik.math.*;
  * <a href="http://github.com/sahasatvik/Calculator">Github repository</a>.
  *
  * 	@author		Satvik Saha
- * 	@version	1.0, 17/10/2016
+ * 	@version	0.1.3, 01/02/2017
  * 	@see		<a href="http://github.com/sahasatvik/Calculator">
  * 				http://github.com/sahasatvik/Calculator
  * 			</a>
  * 	@see		com.github.sahasatvik.math.ExpressionParser
- * 	@since		1.0
+ * 	@since		0.1.0
  */
 
 public class Calculator {
@@ -43,7 +43,7 @@ public class Calculator {
 	 * Main method of Calculator.
 	 *
 	 * 	@param	args			the command-line arguments supplied to Calculator
-	 * 	@since	1.0
+	 * 	@since	0.1.0
 	 */
 	public static void main (String[] args) {
 
@@ -147,7 +147,7 @@ public class Calculator {
 	 * 					thrown when an exception is encountered while parsing
 	 * 					the expression
 	 * 	@see	com.github.sahasatvik.math.ExpressionParser#evaluate(String)
-	 * 	@since	1.0
+	 * 	@since	0.1.0
 	 */
 
 	public static String evaluate (String exp) throws ExpressionParserException {
@@ -164,7 +164,7 @@ public class Calculator {
 	 * 	@throws	CommandNotFoundException
 	 * 					thrown when an unrecognized command is passed here
 	 * 	@see	CommandNotFoundException
-	 * 	@since	1.0
+	 * 	@since	0.1.0
 	 */
 
 	public static void parseCommand (String command) throws CommandNotFoundException {

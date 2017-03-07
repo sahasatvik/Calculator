@@ -3,9 +3,9 @@
  * Exception thrown when an unrecognized command is passed to Calculator.
  *
  * 	@author		Satvik Saha
- * 	@version	1.0, 17/10/2016
+ * 	@version	0.1.0, 17/10/2016
  * 	@see		Calculator
- * 	@since		1.0
+ * 	@since		0.1.0
  */
 
 public class CommandNotFoundException extends Exception {
@@ -15,7 +15,7 @@ public class CommandNotFoundException extends Exception {
 	 * Constructor of CommandNotFoundException.
 	 *
 	 * 	@param	command			the command which could not be parsed
-	 * 	@since	1.0
+	 * 	@since	0.1.0
 	 */
 
 	public CommandNotFoundException (String command) {
@@ -27,7 +27,7 @@ public class CommandNotFoundException extends Exception {
 	 * Get the command which could not be parsed.
 	 *
 	 * 	@return				the command which could not be parsed
-	 * 	@since	1.0
+	 * 	@since	0.1.0
 	 */
 
 	public String getCommand () {

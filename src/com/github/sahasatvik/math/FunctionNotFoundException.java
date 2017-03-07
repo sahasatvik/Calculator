@@ -5,9 +5,9 @@ package com.github.sahasatvik.math;
  * Exception thrown when an unparsable function is passed to ExpressionParser.
  *
  * 	@author		Satvik Saha
- * 	@version	1.0, 16/10/2016
+ * 	@version	0.1.0, 16/10/2016
  * 	@see		com.github.sahasatvik.math.ExpressionParserException
- * 	@since		1.0
+ * 	@since		0.1.0
  */
 
 public class FunctionNotFoundException extends ExpressionParserException {
@@ -18,7 +18,8 @@ public class FunctionNotFoundException extends ExpressionParserException {
 	 * invalid expression as well as the unrecognized function name.
 	 *
 	 * 	@param	faultyExpression	the expression which could not be parsed
-	 * 	@param	func			the unrecognized function name 	
+	 * 	@param	func			the unrecognized function name
+	 * 	@since	0.1.0
 	 */
 
 	public FunctionNotFoundException (String faultyExpression, String func) {
@@ -31,7 +32,7 @@ public class FunctionNotFoundException extends ExpressionParserException {
 	 * the unrecognized function name.
 	 *
 	 * 	@param	func			the unrecognized function name
-	 * 	@since	1.0
+	 * 	@since	0.1.0
 	 *
 	 */ 
 

@@ -5,9 +5,9 @@ package com.github.sahasatvik.math;
  * Superclass of all Exceptions thrown by ExpressionParser.
  *
  * 	@author		Satvik Saha
- * 	@version	1.0, 16/10/2016
+ * 	@version	0.1.0, 16/10/2016
  * 	@see		com.github.sahasatvik.math.ExpressionParser
- * 	@since		1.0
+ * 	@since		0.1.0
  */
 
 public class ExpressionParserException extends Exception {
@@ -17,7 +17,7 @@ public class ExpressionParserException extends Exception {
 	 * Constructor of ExpressionParserException.
 	 *
 	 * 	@param	faultyExpression	the expression which could not be parsed
-	 * 	@since	1.0
+	 * 	@since	0.1.0
 	 */
 
 	public ExpressionParserException (String faultyExpression) {
@@ -30,7 +30,7 @@ public class ExpressionParserException extends Exception {
 	 * Gets the expression which could not be parsed.
 	 *
 	 * 	@return				the expression which could not be parsed
-	 * 	@since	1.0
+	 * 	@since	0.1.0
 	 */
 	public String getFaultyExpression () {
 		return faultyExpression;

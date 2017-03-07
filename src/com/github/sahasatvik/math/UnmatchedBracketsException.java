@@ -6,9 +6,9 @@ package com.github.sahasatvik.math;
  * brackets.
  *
  * 	@author		Satvik Saha
- * 	@version	1.0, 16/10/2016
+ * 	@version	0.1.0, 16/10/2016
  * 	@see		com.github.sahasatvik.math.ExpressionParserException
- * 	@since		1.0
+ * 	@since		0.1.0
  */
 
 public class UnmatchedBracketsException	extends ExpressionParserException {
@@ -19,7 +19,7 @@ public class UnmatchedBracketsException	extends ExpressionParserException {
 	 *
 	 * 	@param	faultyExpression	the expression which could not be parsed
 	 * 	@param	pos			the index of the unmatched bracket
-	 * 	@since	1.0
+	 * 	@since	0.1.0
 	 */
 
 	public UnmatchedBracketsException (String faultyExpression, int pos) {
@@ -31,7 +31,7 @@ public class UnmatchedBracketsException	extends ExpressionParserException {
 	 * Gets the index of the unmatched bracket.
 	 *
 	 * 	@return				the index of the unmatched bracket
-	 * 	@since	1.0
+	 * 	@since	0.1.0
 	 */
 
 	public int getIndexOfBracket () {

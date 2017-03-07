@@ -6,9 +6,9 @@ package com.github.sahasatvik.math;
  * operand.
  *
  * 	@author		Satvik Saha
- * 	@version	1.0, 16/10/2016
+ * 	@version	0.1.0, 16/10/2016
  * 	@see		com.github.sahasatvik.math.ExpressionParserException
- * 	@since		1.0
+ * 	@since		0.1.0
  */
 
 public class MissingOperandException extends ExpressionParserException {
@@ -19,7 +19,7 @@ public class MissingOperandException extends ExpressionParserException {
 	 *
 	 * 	@param	faultyExpression	the expression which could not be parsed
 	 * 	@param	op			the operator which is missing an operand
-	 * 	@since	1.0
+	 * 	@since	0.1.0
 	 */
 
 	public MissingOperandException (String faultyExpression, String op) {
@@ -31,7 +31,7 @@ public class MissingOperandException extends ExpressionParserException {
 	 * Gets the operator which is missing an operand.
 	 *
 	 * 	@return				the operator which is missing an operand
-	 * 	@since	1.0
+	 * 	@since	0.1.0
 	 */
 
 	public String getOperator () {

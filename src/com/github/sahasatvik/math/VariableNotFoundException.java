@@ -5,9 +5,9 @@ package com.github.sahasatvik.math;
  * Exception thrown when an unrecognized variable is passed to ExpressionParser.
  *
  * 	@author		Satvik Saha
- * 	@version	1.0, 16/10/2016
+ * 	@version	0.1.0, 16/10/2016
  * 	@see		com.github.sahasatvik.math.ExpressionParserException
- * 	@since		1.0
+ * 	@since		0.1.0
  */
 
 public class VariableNotFoundException extends ExpressionParserException {
@@ -19,7 +19,7 @@ public class VariableNotFoundException extends ExpressionParserException {
 	 *
 	 * 	@param	faultyExpression	the expression which could not be parsed
 	 * 	@param	var			the unrecognized variable
-	 * 	@since	1.0
+	 * 	@since	0.1.0
 	 */
 
 	public VariableNotFoundException (String faultyExpression, String var) {
@@ -32,7 +32,7 @@ public class VariableNotFoundException extends ExpressionParserException {
 	 * the unrecognized variable.
 	 *
 	 * 	@param	var			the unrecognized variable
-	 * 	@since	1.0
+	 * 	@since	0.1.0
 	 */
 
 	public VariableNotFoundException (String var) {
@@ -43,7 +43,7 @@ public class VariableNotFoundException extends ExpressionParserException {
 	 * Gets the unrecognized variable.
 	 *
 	 * 	@return 			the unrecognized variable
-	 * 	@since	1.0
+	 * 	@since	0.1.0
 	 */
 
 	public String getVar () {

@@ -5,8 +5,8 @@
  * representation of a mathematical expression into an evaluated answer.
  *
  * 	@author		Satvik Saha
- * 	@version	1.0, 16/10/2016
- * 	@since		1.0
+ * 	@version	0.1.0, 16/10/2016
+ * 	@since		0.1.0
  */
 
 package	com.github.sahasatvik.math;

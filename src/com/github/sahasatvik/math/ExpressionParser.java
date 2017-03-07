@@ -7,9 +7,9 @@ package com.github.sahasatvik.math;
  * parenthesized expressions, variable substitution as well as basic functions.
  *
  * 	@author		Satvik Saha
- * 	@version	1.0, 16/10/2016
+ * 	@version	0.1.3, 16/10/2016
  * 	@see		com.github.sahasatvik.math.MathParser
- * 	@since		1.0
+ * 	@since		0.1.0
  */
 
 public class ExpressionParser extends MathParser {
@@ -56,7 +56,7 @@ public class ExpressionParser extends MathParser {
 	 * the specified maximum size.
 	 *
 	 * 	@param	maxVars			the maximum number of variables to be stored
-	 * 	@since	1.0
+	 * 	@since	0.1.0
 	 */
 
 	public ExpressionParser (int maxVars) {
@@ -70,7 +70,7 @@ public class ExpressionParser extends MathParser {
 	 *
 	 * 	@param	name			the name of the variable 
 	 * 	@param	value			the value the variable holds
-	 * 	@since	1.0
+	 * 	@since	0.1.0
 	 */
 
 	public void addVariable (String name, String value) {
@@ -106,7 +106,7 @@ public class ExpressionParser extends MathParser {
 	 *	@see	#parseParenthesis(String)
 	 *	@see	#parseFunctions(String)
 	 *	@see	#parseOperators(String)
-	 *	@since	1.0
+	 *	@since	0.1.0
 	 */
 
 	public String evaluate (String exp) throws ExpressionParserException {
@@ -172,7 +172,7 @@ public class ExpressionParser extends MathParser {
 	 * 	@throws	com.github.sahasatvik.math.VariableNotFoundException
 	 * 					thrown when an unrecognized variable name is 
 	 * 					found in the expression
-	 * 	@since	1.0
+	 * 	@since	0.1.0
 	 */
 
 	protected String parseVariables (String exp) throws VariableNotFoundException {
@@ -221,7 +221,7 @@ public class ExpressionParser extends MathParser {
 	 * 					thrown if the parenthesized sections cannot be
 	 * 					parsed
 	 * 	@see	#indexOfMatchingBracket(String, int, char, char)
-	 * 	@since	1.0
+	 * 	@since	0.1.0
 	 */
 
 	protected String parseParenthesis (String exp) throws ExpressionParserException {
@@ -283,7 +283,7 @@ public class ExpressionParser extends MathParser {
 	 * 					thrown if the function argument cannot be
 	 * 					parsed
 	 * 	@see	com.github.sahasatvik.math.MathParser#solveUnaryFunction(String, double)
-	 * 	@since	1.0
+	 * 	@since	0.1.0
 	 */
 
 	protected String parseFunctions (String exp) throws ExpressionParserException {
@@ -377,7 +377,7 @@ public class ExpressionParser extends MathParser {
 	 * 	@throws	com.github.sahasatvik.math.MissingOperandException
 	 * 					thrown if a binary operator is missing an operand
 	 * 	@see	com.github.sahasatvik.math.MathParser#solveBinaryOperation(double, String, double)
-	 * 	@since	1.0
+	 * 	@since	0.1.0
 	 */
 
 	protected String parseOperators (String exp) throws MissingOperandException {
@@ -452,7 +452,7 @@ public class ExpressionParser extends MathParser {
 	 *
 	 * 	@param	exp			the expression to be parsed
 	 * 	@return				the expression with adjusted spacing
-	 * 	@since	1.0
+	 * 	@since	0.1.0
 	 */
 
 	protected static String adjustNumberSpacing (String exp) {
@@ -475,7 +475,7 @@ public class ExpressionParser extends MathParser {
 	 * 	@return				the index of the matching closing bracket
 	 * 	@throws	com.github.sahasatvik.math.UnmatchedBracketsException
 	 * 					thrown if the specified opening bracket is unclosed
-	 * 	@since 1.0
+	 * 	@since 0.1.0
 	 */
 
 	protected static int indexOfMatchingBracket (String str, int pos, char open, char close) 

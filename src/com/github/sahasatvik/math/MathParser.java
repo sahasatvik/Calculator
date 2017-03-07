@@ -7,8 +7,8 @@ package com.github.sahasatvik.math;
  * These methods can be accessed by subclasses of MathParser.
  *
  * 	@author		Satvik Saha
- * 	@version	1.0, 16/10/2016
- * 	@since		1.0
+ * 	@version	0.1.0, 16/10/2016
+ * 	@since		0.1.0
  */
 
 public class MathParser {
@@ -18,7 +18,7 @@ public class MathParser {
 	 *
 	 * 	@param	str			the String to be tested
 	 * 	@return				true if the String can be parsed as a number
-	 * 	@since	1.0
+	 * 	@since	0.1.0
 	 */
 	
 	protected static boolean isNumber (String str) {
@@ -36,7 +36,7 @@ public class MathParser {
 	 *
 	 * 	@param	x			the number whose factorial is to be calculated
 	 * 	@return				the factorial of the number passed
-	 * 	@since	1.0
+	 * 	@since	0.1.0
 	 */
 
 	protected static double factorial (double x) {
@@ -62,7 +62,7 @@ public class MathParser {
 	 *	@param	op			the opearator
 	 *	@param	b			the operand on the right
 	 *	@return				the result on evaluating the expression
-	 *	@since	1.0
+	 *	@since	0.1.0
 	 */
 
 	protected static double solveBinaryOperation (double a, String op, double b) {
@@ -109,7 +109,7 @@ public class MathParser {
 	 *	@return				the result on evaluating the expression
 	 *	@throws	com.github.sahasatvik.math.FunctionNotFoundException
 	 *					thrown when func is not recognized
-	 *	@since	1.0
+	 *	@since	0.1.0
 	 */
 	
 	protected static double solveUnaryFunction (String func, double x)
