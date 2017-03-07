@@ -2,7 +2,7 @@
 This is a simple java application written to evaluate mathematical expressions.
 
 ##[Documentation](http://htmlpreview.github.io/?http://github.com/sahasatvik/Calculator/master/docs/index.html)
-The `docs/` folder in this repository contains an extensive documentation of the libraries used by Calculator.
+The `docs/` folder in this repository contains an extensive documentation of the libraries used by *Calculator*.
 You can start at `docs/index.html`, or click the link in the header to view the one hosted online.
 
 ##Usage
