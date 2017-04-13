@@ -28,7 +28,7 @@ parenthesis (`(`, `)`).	*Calculator* follows the BODMAS rule.
 	1 + 1			=>		 2.0
 	1 * (2 + 3)		=>		 5.0
 	10 * (64 ^ -0.5)
-					=>		1.25
+				=>		1.25
 ```
 
 ## Variables
@@ -46,35 +46,35 @@ parenthesis (`(`, `)`).	*Calculator* follows the BODMAS rule.
 	x = 3			=>		 3.0
 	y = <x> + 1		=>		 4.0
 	(<x>^2 + <y>^2)^0.5	
-					=>		 5.0 
+				=>		 5.0 
 ```
 
 ### Miscellaneous features
 Nesting of assignments is also supported, as follows : 
 ```
 	x = 1 + (y = 1)		
-					=>		 2.0
-	<x>				=>		 2.0
-	<y>				=>		 1.0
+				=>		 2.0
+	<x>			=>		 2.0
+	<y>			=>		 1.0
 ```
 A special variable `<ans>` stores the previous expression. Thus, the following is valid : 
 ```
-	1 * 2 * 3 * 4	=>		24.0
-	<ans> * 5		=>     120.0
+	1 * 2 * 3 * 4		=>		24.0
+	<ans> * 5		=>	       120.0
 ```			
 ## Functions
 *Calculator* supports the use of some basic *functions*.
 
 ### Syntax
 ```
-	fnc[ value ]	>	evaluate 'fnc' of 'value'
+	fnc[ value ]		>	evaluate 'fnc' of 'value'
 ```
 
 ### Uses
 ```
-	sin[<pi> / 2]	=>		 1.0
-	1 + abs[2 - 3]	=>		 2.0
-	log[<e> ^ 3]	=>		 3.0
+	sin[<pi> / 2]		=>		 1.0
+	1 + abs[2 - 3]		=>		 2.0
+	log[<e> ^ 3]		=>		 3.0
 ```
 
 ### Supported Functions
